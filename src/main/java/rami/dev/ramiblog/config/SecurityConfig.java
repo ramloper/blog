@@ -27,13 +27,14 @@ public class SecurityConfig {
         // 3. Form 로그인 설정
         http.formLogin()
                 .loginPage("/loginForm")
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/login") // MyUserDetailsService가 호출, Post, x-www-~~
                 .successHandler((request, response, authentication) -> {
                     log.debug("디버그 : 로그인 성공");
                 })
                 //entryPoint 인증과 권한 실패시 여기로 보냄
                 .failureHandler((request, response, exception) -> {
                     log.debug("디버그 : 로그인 실패 : "+exception.getMessage());
+                    response.sendRedirect("/loginForm");
                 });
 
         // 4. 인증, 권한 필터 설정          주소가 S로 시작하면 다 못들어감(로그인안됐을경우)
