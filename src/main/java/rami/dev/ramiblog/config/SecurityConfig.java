@@ -21,7 +21,10 @@ public class SecurityConfig {
         // 1. CSRF 해제
         http.csrf().disable();
 
-        // 2. Form 로그인 설정
+        // 2. frame option 해제 (시큐리티 h2-console 접속 허용을 위해)
+        http.headers().frameOptions().disable();
+
+        // 3. Form 로그인 설정
         http.formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")
@@ -33,7 +36,7 @@ public class SecurityConfig {
                     log.debug("디버그 : 로그인 실패 : "+exception.getMessage());
                 });
 
-        // 3. 인증, 권한 필터 설정          주소가 S로 시작하면 다 못들어감(로그인안됐을경우)
+        // 4. 인증, 권한 필터 설정          주소가 S로 시작하면 다 못들어감(로그인안됐을경우)
         http.authorizeRequests(authorize -> authorize.antMatchers("/s/**").authenticated()
                 .anyRequest().permitAll());
 
