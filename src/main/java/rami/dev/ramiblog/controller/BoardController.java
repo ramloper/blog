@@ -10,10 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import rami.dev.ramiblog.core.auth.MyUserDetails;
 import rami.dev.ramiblog.dto.board.BoardRequest;
 import rami.dev.ramiblog.model.board.Board;
@@ -43,5 +40,11 @@ public class BoardController {
     public String save(BoardRequest.SaveInDTO saveInDTO, @AuthenticationPrincipal MyUserDetails myUserDetails){
         boardService.글쓰기(saveInDTO, myUserDetails.getUser().getId());
         return "redirect:/";
+    }
+    @GetMapping( "/board/{id}")
+    public String detail(@PathVariable Long id, Model model){
+        Board board = boardService.게시글상세보기(id);
+        model.addAttribute("board", board);
+        return "board/detail";
     }
 }

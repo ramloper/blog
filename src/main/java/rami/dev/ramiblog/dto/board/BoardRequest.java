@@ -15,12 +15,12 @@ public class BoardRequest {
 
         private String content;
 
-        public Board toEntity(User user) {
+        public Board toEntity(User user, String thumbnail) {
             return Board.builder()
                     .user(user)
                     .title(title)
                     .content(content)
-                    .thumbnail(null)
+                    .thumbnail(thumbnail)
                     .build();
         }
     }

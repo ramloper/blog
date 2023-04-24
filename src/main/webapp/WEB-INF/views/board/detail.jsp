@@ -4,32 +4,32 @@
 
 
 <div class="container my-3">
-        <div class="mb-3 d-flex">
-            <a href="/board/1/updateForm" class="btn btn-warning">수정</a>
-            <form>
-                <input type="hidden" name="id" />
-                <button class="btn btn-danger">삭제</button>
-            </form>
-        </div>
+    <div class="mb-3 d-flex">
+        <a href="/board/1/updateForm" class="btn btn-warning">수정</a>
+        <form>
+            <input type="hidden" name="id" />
+            <button class="btn btn-danger">삭제</button>
+        </form>
+    </div>
 
 
     <div class="mb-2 d-flex justify-content-end">
         글 번호 :
         <span id="id" class="me-3">
-            <i>1</i>
+            <i>${board.id}</i>
         </span>
         작성자 :
         <span class="me-3">
-            <i>ssar</i>
+            <i>${board.user.username}</i>
         </span>
     </div>
 
     <div>
-        <h1><b>글제목</b></h1>
+        <h1><b>${board.title}</b></h1>
     </div>
     <hr/>
     <div>
-        <div>글내용</div>
+        <div>${board.content}</div>
     </div>
     <hr/>
     <i id="heart" class="fa-regular fa-heart fa-lg"></i>
