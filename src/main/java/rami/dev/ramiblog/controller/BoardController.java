@@ -3,12 +3,20 @@ package rami.dev.ramiblog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.asm.IModelFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rami.dev.ramiblog.core.auth.MyUserDetails;
 import rami.dev.ramiblog.dto.board.BoardRequest;
+import rami.dev.ramiblog.model.board.Board;
 import rami.dev.ramiblog.service.BoardService;
 
 @Controller
@@ -19,7 +27,10 @@ public class BoardController {
 
     //RestAPI 주소 설계 규칙에서 자원에는 복수를 붙인다.
     @GetMapping({"/", "/board"})
-    public String main(){
+    public String main(@RequestParam(defaultValue = "0") int page, Model model){
+        Page<Board> boardPG = boardService.글목록보기(page);
+        model.addAttribute("boardPG", boardPG);
+
         return "board/main";
     }
 
