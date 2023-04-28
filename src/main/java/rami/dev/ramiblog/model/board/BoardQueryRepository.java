@@ -26,6 +26,19 @@ public class BoardQueryRepository {
         Long totalCount = em.createQuery("select count(b) from Board b", Long.class).getSingleResult();
         return new PageImpl<>(boardListPS, PageRequest.of(page, SIZE), totalCount);
     }
+
+    public Page<Board> findAllByKeyword(int page, String keyword) {
+        int startPosition = page*SIZE;
+        List<Board> boardListPS = em.createQuery("select b from Board b join fetch b.user where b.title like :keyword order by b.id desc")
+                .setParameter("keyword", "%" + keyword + "%")
+                .setFirstResult(startPosition) // startPosition
+                .setMaxResults(SIZE) // size
+                .getResultList();
+        Long totalCount = em.createQuery("select count(b) from Board b where b.title like :keyword", Long.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getSingleResult();
+        return new PageImpl<>(boardListPS, PageRequest.of(page, SIZE), totalCount);
+    }
 //    public void subquery(){
 //        // 엄청난 긴 쿼리를 짤때는, 결국 QueryDSL 사용하는게 좋음
 //        String sql = "select id, title, content, (select count(id) from love) like_count, 1 n1,2 n2, 3 n3 from board where id = 1"; // 30줄
