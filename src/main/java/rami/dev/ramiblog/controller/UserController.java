@@ -35,6 +35,17 @@ public class UserController {
         return "redirect:/loginForm"; // 302
     }
 
+    @GetMapping("/s/user/{id}/updateForm")
+    public String updateForm(@PathVariable Long id, Model model, @AuthenticationPrincipal MyUserDetails myUserDetails) {
+        // 1. 권한 체크
+        if(id != myUserDetails.getUser().getId()){
+            throw new Exception403("권한이 없습니다");
+        }
+        // 2. 회원 정보 조회
+        User userPS = userService.회원정보보기(id);
+        model.addAttribute("user", userPS);
+        return "user/updateForm";
+    }
     @GetMapping("/joinForm")
     public String joinForm(){
         return "user/joinForm";

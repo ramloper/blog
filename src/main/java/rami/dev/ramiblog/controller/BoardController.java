@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import rami.dev.ramiblog.core.auth.MyUserDetails;
+import rami.dev.ramiblog.core.exception.ssr.Exception403;
 import rami.dev.ramiblog.dto.board.BoardRequest;
 import rami.dev.ramiblog.model.board.Board;
+import rami.dev.ramiblog.model.user.User;
 import rami.dev.ramiblog.service.BoardService;
 
 @Controller
@@ -27,6 +29,7 @@ public class BoardController {
         boardService.게시글삭제(id, myUserDetails.getUser().getId());
         return "redirect:/";
     }
+
     //RestAPI 주소 설계 규칙에서 자원에는 복수를 붙인다.
     @GetMapping({"/", "/board"})
     public String main(
